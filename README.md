@@ -145,21 +145,20 @@ NIKOLAI, AK
 ```
 
 
-
 # Reaching Out
 
 ---
 
 Feel free to reach out with technical and non-technical questions. Our goal is to help you do your best with this test, so honest communication is key.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e483f122-f177-4fb6-9bbf-766e7f65c262/Untitled.png)
+![Untitled](https://github.com/conductiveai/conductive-frontend-test/blob/main/img/5.png?raw=true)
 
 - **Paul** (Engineering)
     - [paul@conductive.ai](mailto:paul@conductive.ai)
     - [@paulpierre](https://t.me/paulpierre)
     
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1d1831e3-487b-4656-96b7-6092ef5de506/Untitled.png)
+![Untitled](https://github.com/conductiveai/conductive-frontend-test/blob/main/img/6.png?raw=true)
 
 - **Spencer** (Product)
     - [spencer@conductive.ai](mailto:spencer@conductive.ai)
