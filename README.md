@@ -49,3 +49,7 @@ Now that performance is satisfactory, there still remains the question of rankin
 2. For each, there are pointers `lo` and `hi`
 
 3. Once the search loop exits, in this case `lo` > `hi`, specifically `lo = hi+1`. This position is known as the indexing point (or where the entry should have been if it was present). So that means entries at `lo` and `hi` are on either side of the search key and based on lexicographic ordering, are the closest ones to the search key
+
+## Other Information
+
+The name of the CSV file is hard coded into both scripts. To change, change the variable `fname` in the script. 
