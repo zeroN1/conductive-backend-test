@@ -1,152 +1,51 @@
-# Conductive.ai Backend Engineer Test: Search Optimization
+# Solutions for Conductive Backend Test
 
+## Introduction
 
-Hi there! 👋
+Firstly, I would like to thank the people at Conductive for giving me the opportunity to participate in this assessment. I have enjoyed working on the assessment and I thought it was really good. This document contains my findings and an explanation for the implementation choices made during the assignment. If you have any further queries, please do not hesitate to forward them to me at **abrarhgalib@gmail.com**. Thanks and have a great day!
 
-Thanks for you interest in the Senior Backend Engineer role at [Conductive.ai](https://www.conductive.ai) 
+## Solution for Part 1
 
-For this project, you'll be using a publically available data source of schools in a CSV format. You'll download the data file and write two Python programs to manipulate the data.
+Part 1 involved reading the entire data set and generating statiscal information from this. The data set is a list of schools in US with their names, geo location and metro locale ranking among other attributes. Specifically, the following questions were of interest:
 
-* We expect this to take around 2 hours to complete. If it seems like it will take significantly longer than that to complete, please ask us first to make sure you aren't over-complicating the project.
+1. How many schools are there in total?
 
-_**Please fork this repository and check in your code and send us a link to your repo**_
+2. How many schools are there per state?
 
-## Part 0: Get the data
-* Go to [this page](https://nces.ed.gov/ccd/CCDLocaleCode.asp) and download the dataset described as:
-    * Year 2005-2006 (v.1b), States A-I, ZIP (769 KB) CSV File. This is the only file you will be using. You can ignore the other files on this page.
-    * You may also find it helpful to consult [the documentation](https://nces.ed.gov/ccd/pdf/sl051bgen.pdf) for this dataset.
-    * Unzip the file, rename it to school_data.csv, and put it in the directory where you'll write your Python program.
-    * Now you have the data you need to get started.
+3. Which city has the highest number of schools and how many schools are there in that city?
 
-## Part 1: Load data from CSV and compute stats.
-Write a method (or a method per question if you'd prefer) that loads the data out of the CSV file
-you downloaded and computes answers to the following questions:
-* How many total schools are in this data set?
-* How many schools are in each state?
-* How many schools are in each Metro-centric locale?
-* What city has the most schools in it? How many schools does it have in it?
-* How many unique cities have at least one school in it?
-### Guidelines
-* Create a file called count_schools.py, and write a method called print_counts.
-* Please implement all of these features using pure python.
-    * You may use the following libraries: csv, time, itertools
-    * No other libraries may be used.
+4. How many schools are there per metro-centric locale (1-8, N for unassigned)?
 
-Example output (this is just a sample, the lists have been truncated and counts aren't
-correct)
-```
->>> count_schools.print_counts()
-Total Schools: 10000
-Schools by State:
-CO: 1000
-DC: 200
-AK: 600
-DE: 300
-AL: 1500
-AR: 1100
-...
-Schools by Metro-centric locale:
-1: 3000
-3: 2000
-2: 5000
-5: 300
-...
-City with most schools: CHICAGO (50 schools)
-Unique cities with at least one school: 1000
-```
+5. How many unique cities have at least one school in it?
 
-## Part 2: Search over school data
-We'd like teachers to be able to easily find the school they teach at. In order to do this, we'd like to offer a search feature that lets them search for their school using plain text.
-* This feature should search over school name, city name, and state name.
-* The top 3 matching results should be returned (see below for examples).
+The entire data set is loaded into memory as a `list` of `dict` with only the required attributes being mapped. A friendlier name was used for mapping these values compared to the original headings in the CSV file.
 
-### Guidelines
-* When a query doesn't match exactly, you'll need to come up with a set of rules to rank results. In particular, make sure more precise matches show up at the top of the list, and if there isn't an exact match, but there is a close match, some results are returned. There is no perfect set of rules, but you should come up with a set that improve the end user search experience as much as possible.
-* Searches should run in real-time, meaning that they should return results to the user in less than 200ms. It's ok to perform data loading and processing up front that takes longer than this if you'd like.
-* Create a file called school_search.py, and write a method called search_schools.
-* Please implement all of these features using pure python.
-    * You may use the following libraries: csv, time, itertools
-    * No other libraries may be used.
+Each question is unique and the logical approach is to define a separate function/method that processes the dataset (without side effect i.e.,) and yields the required answer. However, if performance is considered, it will be clear that a single function should process the entire dataset and produce all the answer. The advantage in doing so is that the entire dataset can then be processed in a single pass and each groups can be extracted as necessary. While this is not ideal for situations where runtime memory may be low but otherwise provides an efficient albeit less maintainable (or readable) chunk of function/method.
 
-### Evaluation
-* Accuracy
-    * We'll evaluate the accuracy of your search using sample queries. We have included a few below in Test Cases that you can test with (we'll also test with others).
-    * The following queries should return the results shown below as the top hits. If multiple results are shown below, it doesn't matter if one appears before the other, but they must be the first results returned.
-    * If you see [Next Best Hit], that means that you should include a reasonable hit for the search query, but that there isn't a specific hit that we'll be looking for.
-* Performance
-    * All results should return within 200ms.
-    * *EXTRA CREDIT*: All results are returned within 10ms.
-* Code Quality
-    * We're looking for clear, easy to understand code. Write code that makes your thinking algorithm as obvious as possible.
-    * Prioritize readability over cleverness. We care less that you can code a solution to this problem in one line, and more that we are able to easily follow your code.
-    * Don't worry about documentation for this project. Do your best to make the code readable without requiring reading lots of documentation.
+In the case of the solution, a single function was exported to the user. This function can be modified to either separately process the answer in a separate method or process them in one method. The default will always use the latter approach (dubbed as **"fast"**).
 
-###  Test Cases
+## Solutions for Part 2
 
-```
-elementary school highland park
->>> school_search.search_schools("elementary school highland park")
-Results for "elementary school highland park" (search took: 0.009s)
-1. HIGHLAND PARK ELEMENTARY SCHOOL
-MUSCLE SHOALS, AL
-2. HIGHLAND PARK ELEMENTARY SCHOOL
-PUEBLO, CO
-3. [Next Best Hit]
-```
+This part of the question was more interesting. Full text search is an interesting problem in CS. For this part of the problem, this problem is presented in the following form:
 
-```
-jefferson belleville
->>> school_search.search_schools("jefferson belleville")
-Results for "jefferson belleville" (search took: 0.000s)
-1. JEFFERSON ELEM SCHOOL
-BELLEVILLE, IL
-2. [Next Best Hit]
-3. [Next Best Hit]
-```
+1. Given the dataset, allow the user to find schools by name, city and/or state. Show three best possible choices to the user.
 
-```
-riverside school 44
->>> school_search.search_schools("riverside school 44")
-Results for "riverside school 44" (search took: 0.002s)
-1. RIVERSIDE SCHOOL 44
-INDIANAPOLIS, IN
-2. [Next Best Hit]
-3. [Next Best Hit]
-```
+The complications arise when you start thinking about "best choices". How do you rank names of school or city? How do you decide which names are "closer" or "matches better" compared to other names? Finally, how do you provide all that under **200ms**?
 
-```
-granada charter school
->>> school_search.search_schools("granada charter school")
-Results for "granada charter school" (search took: 0.001s)
-1. NORTH VALLEY CHARTER ACADEMY
-GRANADA HILLS, CA
-2. GRANADA HILLS CHARTER HIGH
-GRANADA HILLS, CA
-3. [Next Best Hit]
-```
+There are many possible ways in which this problem can be addressed:
 
-```
-foley high alabama
->>> school_search.search_schools("foley high alabama")
-Results for "foley high alabama" (search took: 0.001s)
-1. FOLEY HIGH SCHOOL
-FOLEY, AL
-2. [Next Best Hit]
-3. [Next Best Hit]
-```
+1. Linearly searching through the dataset and using a pattern match against all school names, city names and/or state names
 
-```
-KUSKOKWIM
->>> school_search.search_schools("KUSKOKWIM")
-Results for "KUSKOKWIM" (search took: 0.001s)
-1. TOP OF THE KUSKOKWIM SCHOOL
-NIKOLAI, AK
-(No additional results should be returned)
-```
+2. Using a sorted list and using Binary Search on the sorted list
 
+3. Using a Trie data structure
 
-# Reaching Out
+Approach 1 is simple to understand and implement, it does not perform well and takes longer than **200ms** on average. So the choice was between 2 and 3. Approach 3 adds many more complexities to the implementation; also, it only makes more sense in context where newer entries are added to the dataset during runtime which is not the case here. Therefore, approach 2 looks like the more desirable option to go for, both in terms of its fairly simple implementation and its performance (or rather time complexity).
 
----
+Now that performance is satisfactory, there still remains the question of ranking strings. There are many metrics for comparing string and determining their closeness like **Levenshtein Distance**, **Smith-Waterman-Gotoh** algorithms. However, these algorithms are much slower when comparing a large number of strings. This presents a slight issue regarding binary search: binary search generally looks for an exact match; this means typos, spelling mistakes can render incorrect results. To make UX better, the school names were converted to `lowercase` and all spaces were removed. Furthermore, sorting also uses lexicographic order (or natural ordering). This presents another issue: what if the result is not found? In that case, consider the following:
 
-Feel free to reach out with technical and non-technical questions. Our goal is to help you do your best with this test, so honest communication is key.
+1. In binary search, there are two partitions: left and right
+
+2. For each, there are pointers `lo` and `hi`
+
+3. Once the search loop exits, in this case `lo` > `hi`, specifically `lo = hi+1`. This position is known as the indexing point (or where the entry should have been if it was present). So that means entries at `lo` and `hi` are on either side of the search key and based on lexicographic ordering, are the closest ones to the search key
