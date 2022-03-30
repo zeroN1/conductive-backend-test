@@ -4,7 +4,7 @@
 
 Firstly, I would like to thank the people at Conductive for giving me the opportunity to participate in this assessment. I have enjoyed working on the assessment and I thought it was really good. This document contains my findings and an explanation for the implementation choices made during the assignment. If you have any further queries, please do not hesitate to forward them to me at **abrarhgalib@gmail.com**. Thanks and have a great day!
 
-## Solution for Part 1
+## Solutions for Part 1
 
 Part 1 involved reading the entire data set and generating statiscal information from this. The data set is a list of schools in US with their names, geo location and metro locale ranking among other attributes. Specifically, the following questions were of interest:
 
@@ -22,9 +22,9 @@ The entire data set is loaded into memory as a `list` of `dict` with only the re
 
 Each question is unique and the logical approach is to define a separate function/method that processes the dataset (without side effect i.e.,) and yields the required answer. However, if performance is considered, it will be clear that a single function should process the entire dataset and produce all the answer. The advantage in doing so is that the entire dataset can then be processed in a single pass and each groups can be extracted as necessary. While this is not ideal for situations where runtime memory may be low but otherwise provides an efficient albeit less maintainable (or readable) chunk of function/method.
 
-In the case of the solution, a single function was exported to the user. This function can be modified to either separately process the answer in a separate method or process them in one method. The default will always use the latter approach (dubbed as **"fast"**).
+In the case of the solution, a single function was exported to the user. This function can be modified to either separately process the answer in a separate method or process them in one method. The default will always use the latter approach (dubbed as **"fast"**). You can also check **slow** version that uses separate methods.
 
-## Solutions for Part 2
+## Solution for Part 2
 
 This part of the question was more interesting. Full text search is an interesting problem in CS. For this part of the problem, this problem is presented in the following form:
 
@@ -52,4 +52,6 @@ Now that performance is satisfactory, there still remains the question of rankin
 
 ## Other Information
 
-The name of the CSV file is hard coded into both scripts. To change, change the variable `fname` in the script. 
+1. The name of the CSV file is hard coded into both scripts. To change, change the variable `fname` in the script
+
+2. There are some utility functions in `utils.py` file
