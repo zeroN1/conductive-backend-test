@@ -1,5 +1,4 @@
 import csv
-import csv
 from itertools import groupby
 from utils import Fields
 
