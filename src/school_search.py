@@ -47,10 +47,10 @@ def tokenizeSearchKeywords(kw):
             except KeyError:
                 pass
         if word in CityNames:
-            print("CityWord: {}".format(word))
+            #print("CityWord: {}".format(word))
             city = word.lower()
         elif word in StateFullNames:
-            print("StateWord: {}".format(word))
+            #print("StateWord: {}".format(word))
             state = word.lower()
        
         search.append(word)
