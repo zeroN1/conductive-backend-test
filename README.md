@@ -55,3 +55,17 @@ Now that performance is satisfactory, there still remains the question of rankin
 1. The name of the CSV file is hard coded into both scripts. To change, change the variable `fname` in the script
 
 2. There are some utility functions in `utils.py` file
+
+## Addendum
+
+Following feedback from you guys, I changed my implementation of `search_school` method. In the previous implementation, a fairly simple approach was favoured. This time, I implemented a Trie and was able to improve the matching. Furthermore, once a prefix match is made, the results are improved in the following way:
+
+1. If full state names, city names or state codes are present in the search string, then these are extracted to move entries where these atrribute(s) match to the top of the results
+
+2. To avoid duplicates when using tokens for the Trie, the school name, city and state was combined without spaces into a string. This provides enough uniqueness to each entry and thus ensures that there are no overwrites
+
+3. A file `states-codes.csv` was added that contains the mapping of all 2 letter state codes to full names of the state. This is used for improving the search experience
+
+The time complexity for search is `O(m)` where `m` is the length of the search string. The charset was assumed to be 256; initially using 26 characters (only lowercase English alphabets) caused issues with some names; due to this, a much bigger charset was used. Compared to last implementation, load times are much longer. However, search is quite fast and the accuracy of the results has greatly improved.
+
+Finally, a big thanks for allowing me another opportunity to improve on my initial submission.
