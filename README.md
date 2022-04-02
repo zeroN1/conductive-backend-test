@@ -68,4 +68,6 @@ Following feedback from you guys, I changed my implementation of `search_school`
 
 The time complexity for search is `O(m)` where `m` is the length of the search string. The charset was assumed to be 256; initially using 26 characters (only lowercase English alphabets) caused issues with some names; due to this, a much bigger charset was used. Compared to last implementation, load times are much longer. However, search is quite fast and the accuracy of the results has greatly improved.
 
+**Note:** If there is a key error, that is due to the fact that one of the state names is only `C` instead of `DC` and it causes the `StateCodes` lookup to fail. Correct the name of the state in the input file or use the one in this repository (I corrected that one).
+
 Finally, a big thanks for allowing me another opportunity to improve on my initial submission.
